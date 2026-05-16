@@ -1,480 +1,95 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Writing Portfolio — [Your Name]</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --ink: #0f0f0f;
-    --paper: #f8f5ef;
-    --accent: #c0392b;
-    --muted: #7a7066;
-    --rule: #d4cfc6;
-    --card-bg: #ffffff;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    min-height: 100vh;
-  }
-
-  /* ── MASTHEAD ── */
-  header {
-    border-bottom: 2px solid var(--ink);
-    padding: 3rem 2rem 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .masthead-label {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 1rem;
-  }
-
-  header h1 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.4rem, 6vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    color: var(--ink);
-  }
-
-  header h1 em {
-    font-style: italic;
-    color: var(--accent);
-  }
-
-  .tagline {
-    margin-top: 1rem;
-    font-size: 1rem;
-    color: var(--muted);
-    max-width: 520px;
-  }
-
-  .contact-bar {
-    margin-top: 1.6rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.4rem;
-    align-items: center;
-    font-size: 0.82rem;
-    letter-spacing: 0.04em;
-  }
-
-  .contact-bar a {
-    color: var(--ink);
-    text-decoration: none;
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 1px;
-    transition: color 0.2s;
-  }
-
-  .contact-bar a:hover { color: var(--accent); }
-
-  .contact-bar span { color: var(--rule); }
-
-  /* ── BIO ── */
-  .bio-section {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2.4rem 2rem;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .bio-section p {
-    font-size: 1.05rem;
-    line-height: 1.8;
-    max-width: 680px;
-    color: #2a2520;
-  }
-
-  /* ── SECTION LABELS ── */
-  .section-label {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2.2rem 2rem 0.6rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
-  .section-label h2 {
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 500;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  .section-label .rule-line {
-    flex: 1;
-    height: 1px;
-    background: var(--rule);
-  }
-
-  /* ── FEATURED ── */
-  .featured {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 2rem 1rem;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.2rem;
-  }
-
-  @media (max-width: 640px) { .featured { grid-template-columns: 1fr; } }
-
-  .card {
-    background: var(--card-bg);
-    border: 1px solid var(--rule);
-    padding: 1.8rem;
-    position: relative;
-    transition: transform 0.2s, box-shadow 0.2s;
-    cursor: default;
-  }
-
-  .card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.07);
-  }
-
-  .card-tag {
-    font-size: 0.62rem;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 0.7rem;
-  }
-
-  .card h3 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1.15rem;
-    font-weight: 700;
-    line-height: 1.35;
-    margin-bottom: 0.8rem;
-    color: var(--ink);
-  }
-
-  .card p {
-    font-size: 0.875rem;
-    color: var(--muted);
-    line-height: 1.65;
-  }
-
-  .card-accent {
-    display: block;
-    width: 28px;
-    height: 3px;
-    background: var(--accent);
-    margin-bottom: 1rem;
-  }
-
-  /* Card spans full width */
-  .card.wide {
-    grid-column: 1 / -1;
-  }
-
-  /* ── CLIPS LIST ── */
-  .clips {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 2rem 3rem;
-  }
-
-  .clip-item {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1rem;
-    align-items: start;
-    padding: 1.2rem 0;
-    border-bottom: 1px solid var(--rule);
-    transition: background 0.15s;
-  }
-
-  .clip-item:last-child { border-bottom: none; }
-
-  .clip-tag {
-    font-size: 0.6rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 0.3rem;
-  }
-
-  .clip-item h4 {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 1rem;
-    font-weight: 400;
-    color: var(--ink);
-    line-height: 1.4;
-  }
-
-  .clip-item p {
-    font-size: 0.82rem;
-    color: var(--muted);
-    margin-top: 0.3rem;
-    max-width: 560px;
-  }
-
-  .clip-arrow {
-    font-size: 0.9rem;
-    color: var(--rule);
-    margin-top: 0.2rem;
-  }
-
-  /* ── EXPERTISE STRIP ── */
-  .expertise {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 2rem;
-    margin: 0;
-  }
-
-  .expertise-inner {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem 2rem;
-    align-items: center;
-  }
-
-  .expertise-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: #7a7066;
-    margin-right: 0.5rem;
-  }
-
-  .tag-pill {
-    font-size: 0.76rem;
-    letter-spacing: 0.06em;
-    padding: 0.3rem 0.8rem;
-    border: 1px solid #333;
-    color: #ccc;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 2rem 2rem 3rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-
-  footer p {
-    font-size: 0.75rem;
-    color: var(--muted);
-  }
-
-  footer a {
-    font-size: 0.75rem;
-    color: var(--accent);
-    text-decoration: none;
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .card, .clip-item, .bio-section p {
-    animation: fadeUp 0.5s ease both;
-  }
-
-  .card:nth-child(2) { animation-delay: 0.08s; }
-  .card:nth-child(3) { animation-delay: 0.16s; }
-  .card:nth-child(4) { animation-delay: 0.24s; }
-  .card:nth-child(5) { animation-delay: 0.32s; }
-</style>
-</head>
-<body>
-
-<!-- ── MASTHEAD ── -->
-<header>
-  <p class="masthead-label">Freelance Writing Portfolio</p>
-  <h1>Words that <em>move</em><br>ideas forward.</h1>
-  <p class="tagline">Analytical essays, policy research, cultural features, and investigative writing across global affairs, technology, and society.</p>
-  <div class="contact-bar">
-    <a href="mailto:your@email.com">your@email.com</a>
-    <span>·</span>
-    <a href="https://renesenjeru.wordpress.com" target="_blank">renesenjeru.wordpress.com</a>
-    <span>·</span>
-    <a href="#">LinkedIn</a>
-  </div>
-</header>
-
-<!-- ── BIO ── -->
-<section class="bio-section">
-  <p>
-    I'm a journalist and feature writer with a background in narrative nonfiction, policy analysis, and investigative research. I cover global affairs, governance, technology, and culture — with a particular focus on how institutions, systems, and innovations shape lives in the developing world. My work combines analytical rigour with accessible storytelling, written for audiences who want to be both informed and moved.
-  </p>
-</section>
-
-<!-- ── FEATURED WORK ── -->
-<div class="section-label">
-  <h2>Featured Work</h2>
-  <div class="rule-line"></div>
-</div>
-
-<div class="featured">
-
-  <div class="card">
-    <span class="card-accent"></span>
-    <div class="card-tag">Global Governance · Policy Analysis</div>
-    <h3>ECOWAS and the Politics of Hunger in West Africa</h3>
-    <p>A rigorous analysis of why the Economic Community of West African States has failed to contain a food crisis that now affects over 52 million people — despite a decade of policy frameworks, regional reserves, and international partnerships.</p>
-  </div>
-
-  <div class="card">
-    <span class="card-accent"></span>
-    <div class="card-tag">International Relations · Security</div>
-    <h3>Syria's New Regime and the European Security Question</h3>
-    <p>After HTS's takeover of Damascus in December 2024, Europe faces a reshaped threat landscape. This paper examines migration policy, counterterrorism risk, and EU diplomatic strategy under a transitional Syrian government.</p>
-  </div>
-
-  <div class="card">
-    <span class="card-accent"></span>
-    <div class="card-tag">Humanitarian Law · Conflict Journalism</div>
-    <h3>The ICRC in Ukraine: Neutrality Under Fire</h3>
-    <p>A case analysis of how the International Committee of the Red Cross navigated the Russia-Ukraine war — helping 11.6 million people while facing fierce criticism from Kyiv for refusing to publicly condemn Russian violations of international law.</p>
-  </div>
-
-  <div class="card">
-    <span class="card-accent"></span>
-    <div class="card-tag">Global Health · Institutional Power</div>
-    <h3>WHO vs. the United States: Two Ways to Run the World</h3>
-    <p>A comparative analysis of how the World Health Organization and the United States derive authority — epistemic legitimacy versus material power — and why that divergence produced the catastrophic breakdown of global health cooperation during COVID-19.</p>
-  </div>
-
-  <div class="card wide">
-    <span class="card-accent"></span>
-    <div class="card-tag">Environment · Regional Cooperation</div>
-    <h3>Can ACTO Save the Amazon? Regional Cooperation at the Tipping Point</h3>
-    <p>The Amazon has lost over 17% of its original forest cover. Eight countries share it, yet no single policy framework has been able to stop deforestation. This paper uses liberal institutionalism and constructivism to assess why the Amazon Cooperation Treaty Organization succeeds in norm-building but fails in enforcement — and what the 2023 Belém Declaration really means for the forest's future.</p>
-  </div>
-
-</div>
-
-<!-- ── FURTHER CLIPS ── -->
-<div class="section-label" style="margin-top:1.5rem;">
-  <h2>Further Clips</h2>
-  <div class="rule-line"></div>
-</div>
-
-<div class="clips">
-
-  <div class="clip-item">
-    <div>
-      <div class="clip-tag">Technology · Culture</div>
-      <h4>AI Can't Replace Creativity — But It's Expanding What's Possible</h4>
-      <p>An argument essay examining how generative AI mimics creative output without replicating the consciousness, emotion, and lived experience that make human creativity meaningful.</p>
-    </div>
-    <div class="clip-arrow">→</div>
-  </div>
-
-  <div class="clip-item">
-    <div>
-      <div class="clip-tag">Higher Education · Technology</div>
-      <h4>Is AI a Threat or Opportunity to Universities?</h4>
-      <p>A reported analysis of how institutions from Stanford to UCAS are grappling with ChatGPT — and whether banning AI or embracing it produces better educational outcomes.</p>
-    </div>
-    <div class="clip-arrow">→</div>
-  </div>
-
-  <div class="clip-item">
-    <div>
-      <div class="clip-tag">Energy Policy · Global Development</div>
-      <h4>Deploying Renewable Energy in a Disrupted World</h4>
-      <p>Supply chain shocks, rare earth dependencies, grid intermittency, and uneven policy frameworks: a research paper on why the clean energy transition is moving slower than the climate requires.</p>
-    </div>
-    <div class="clip-arrow">→</div>
-  </div>
-
-  <div class="clip-item">
-    <div>
-      <div class="clip-tag">Security Studies · Technology</div>
-      <h4>Nuclear Security vs. AI Risk: Two Faces of the Same Crisis</h4>
-      <p>A comparative security analysis examining how nuclear proliferation and the AI arms race share a common driver — geopolitical competition — and why existing governance frameworks are failing to contain either.</p>
-    </div>
-    <div class="clip-arrow">→</div>
-  </div>
-
-  <div class="clip-item">
-    <div>
-      <div class="clip-tag">History · Cultural Analysis</div>
-      <h4>The Fall of the Roman Empire: Politics, Economics, and the Limits of Power</h4>
-      <p>A concise analytical essay on how political instability, economic deterioration, and military overextension combined to bring down the most powerful state in the ancient world — and why the lessons endure.</p>
-    </div>
-    <div class="clip-arrow">→</div>
-  </div>
-
-  <div class="clip-item">
-    <div>
-      <div class="clip-tag">Narrative Feature · Travel Writing</div>
-      <h4>The Art of Desert Adventures: Inside the UAE's Dune Culture</h4>
-      <p>A character-driven feature following an IT professional whose weekend ritual of dune bashing, stargazing, and hot air ballooning across the Emirati desert has become a practice of self-discovery. Demonstrates range in longform narrative writing.</p>
-    </div>
-    <div class="clip-arrow">→</div>
-  </div>
-
-  <div class="clip-item">
-    <div>
-      <div class="clip-tag">American History · Civil Rights</div>
-      <h4>How the Civil Rights Movement Remade American Law and Conscience</h4>
-      <p>An essay tracing the movement's dual legacy: the landmark legislation it produced — the Civil Rights Act of 1964, the Voting Rights Act of 1965 — and the deeper cultural transformation it sparked in how America understands equality.</p>
-    </div>
-    <div class="clip-arrow">→</div>
-  </div>
-
-</div>
-
-<!-- ── EXPERTISE STRIP ── -->
-<div class="expertise">
-  <div class="expertise-inner">
-    <span class="expertise-label">Covers</span>
-    <span class="tag-pill">Global Affairs</span>
-    <span class="tag-pill">Development Policy</span>
-    <span class="tag-pill">Technology & AI</span>
-    <span class="tag-pill">Humanitarian Issues</span>
-    <span class="tag-pill">Environmental Governance</span>
-    <span class="tag-pill">Security Studies</span>
-    <span class="tag-pill">Narrative Features</span>
-    <span class="tag-pill">Cultural Writing</span>
-  </div>
-</div>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <p>Available for commissions · pitches welcome</p>
-  <a href="mailto:your@email.com">Get in touch →</a>
-</footer>
-
-</body>
-</html>
+Freelance Writing Portfolio
+
+Words that move
+ideas forward.
+Analytical essays, policy research, cultural features, and investigative writing across global affairs, technology, and society.
+
+maureennjeru3@gmail.com
+·
+renesenjeru.wordpress.com
+I'm a journalist and feature writer with a background in narrative nonfiction, policy analysis, and investigative research. I cover global affairs, governance, technology, and culture — with a particular focus on how institutions, systems, and innovations shape lives in the developing world. My work combines analytical rigour with accessible storytelling, written for audiences who want to be both informed and moved.
+
+Featured Work
+Global Governance · Policy Analysis
+ECOWAS and the Politics of Hunger in West Africa
+A rigorous analysis of why the Economic Community of West African States has failed to contain a food crisis now affecting over 52 million people — despite a decade of policy frameworks, regional reserves, and international partnerships.
+
+Read full piece →
+International Relations · Security
+Syria's New Regime and the European Security Question
+After HTS's takeover of Damascus in December 2024, Europe faces a reshaped threat landscape. This paper examines migration policy, counterterrorism risk, and EU diplomatic strategy under a transitional Syrian government.
+
+Read full piece →
+Humanitarian Law · Conflict Journalism
+The ICRC in Ukraine: Neutrality Under Fire
+A case analysis of how the International Committee of the Red Cross navigated the Russia-Ukraine war — helping 11.6 million people while facing fierce criticism for refusing to publicly condemn Russian violations of international law.
+
+Read full piece →
+Global Health · Institutional Power
+WHO vs. the United States: Two Ways to Run the World
+A comparative analysis of how the World Health Organization and the United States derive authority — epistemic legitimacy versus material power — and why that divergence produced the breakdown of global health cooperation during COVID-19.
+
+Read full piece →
+Environment · Regional Cooperation
+Can ACTO Save the Amazon? Regional Cooperation at the Tipping Point
+The Amazon has lost over 17% of its original forest cover. Eight countries share it, yet no single policy framework has stopped deforestation. This paper uses liberal institutionalism and constructivism to assess why the Amazon Cooperation Treaty Organization succeeds in norm-building but fails in enforcement — and what the 2023 Belém Declaration really means for the forest's future.
+
+Read full piece →
+Further Clips
+Technology · Culture
+AI Can't Replace Creativity — But It's Expanding What's Possible
+An argument essay examining how generative AI mimics creative output without replicating the consciousness, emotion, and lived experience that make human creativity meaningful.
+
+→
+Higher Education · Technology
+Is AI a Threat or Opportunity to Universities?
+A reported analysis of how institutions from Stanford to UCAS are grappling with ChatGPT — and whether banning AI or embracing it produces better educational outcomes.
+
+→
+Energy Policy · Global Development
+Deploying Renewable Energy in a Disrupted World
+Supply chain shocks, rare earth dependencies, grid intermittency, and uneven policy frameworks: a research paper on why the clean energy transition is moving slower than the climate requires.
+
+→
+Security Studies · Technology
+Nuclear Security vs. AI Risk: Two Faces of the Same Crisis
+A comparative security analysis examining how nuclear proliferation and the AI arms race share a common driver — geopolitical competition — and why existing governance frameworks are failing to contain either.
+
+→
+History · Cultural Analysis
+The Fall of the Roman Empire: Politics, Economics, and the Limits of Power
+A concise analytical essay on how political instability, economic deterioration, and military overextension combined to bring down the most powerful state in the ancient world.
+
+→
+Narrative Feature · Travel Writing
+The Art of Desert Adventures: Inside the UAE's Dune Culture
+A character-driven feature following an IT professional whose weekend ritual of dune bashing, stargazing, and hot air ballooning across the Emirati desert has become a practice of self-discovery.
+
+→
+American History · Civil Rights
+How the Civil Rights Movement Remade American Law and Conscience
+An essay tracing the movement's dual legacy: the landmark legislation it produced and the deeper cultural transformation it sparked in how America understands equality.
+
+→
+Business Strategy · Case Analysis
+Ricoh Canada: How a Hardware Giant Is Reinventing Itself for the Digital Age
+A strategic case analysis of how Ricoh Canada is navigating the collapse of the print market and racing to reposition itself as an IT services company before its core revenue disappears.
+
+→
+Business Strategy · Retail
+Gap Inc.: What Happens When a Fashion Giant Loses Its Identity
+A case study of how Gap Inc. fell behind fast-fashion rivals like Zara and H&M — and the strategic choices that will determine whether it can win back a generation of shoppers it lost.
+
+→
+Covers
+Global Affairs
+Development Policy
+Technology & AI
+Humanitarian Issues
+Environmental Governance
+Security Studies
+Narrative Features
+Cultural Writing
+Available for commissions · pitches welcome
+
+maureennjeru3@gmail.com →
